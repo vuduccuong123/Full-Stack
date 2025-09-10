@@ -10,3 +10,4 @@ view/node_modules
 *.terraform.lock.hcl
 crash.log
 **/*.tfvars
+.DS_Store
