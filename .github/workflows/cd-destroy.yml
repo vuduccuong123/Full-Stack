@@ -18,7 +18,7 @@ on:
         required: true
 
 env:
-  AWS_PROFILE_NAME: AnhKT4
+  AWS_PROFILE_NAME: CuongVD18
 
 jobs:
   destroy:
@@ -82,14 +82,24 @@ jobs:
         working-directory: infra
         env:
           AWS_PROFILE: ${{ env.AWS_PROFILE_NAME }}
+          DB_PASSWORD_DEV:  ${{ secrets.DB_PASSWORD_DEV }}
+          DB_PASSWORD_UAT:  ${{ secrets.DB_PASSWORD_UAT }}
+          DB_PASSWORD_PROD: ${{ secrets.DB_PASSWORD_PROD }}
         run: |
+          case "${TF_ENV}" in
+            dev)  CLEAN_DB_PASS="$DB_PASSWORD_DEV" ;;
+            uat)  CLEAN_DB_PASS="$DB_PASSWORD_UAT" ;;
+            prod) CLEAN_DB_PASS="$DB_PASSWORD_PROD" ;;
+          esac
+
+          CLEAN_DB_PASS=$(echo "$CLEAN_DB_PASS" | tr -d '\n' | tr -d '\r')
+
           terraform destroy \
             -auto-approve \
             -var-file="envs/${TF_ENV}.tfvars" \
-            -var="db_password=${{ secrets.DB_PASSWORD }}"
+            -var="db_password=$CLEAN_DB_PASS"
 
       - name: Outcome when workspace missing
         if: steps.select_ws.outputs.exists != 'true'
         run: |
           echo "Skip: ${TF_ENV} has no Terraform state/workspace."
-# End of job: destroy

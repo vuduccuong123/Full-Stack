@@ -12,7 +12,6 @@ db_name                = "example"
 
 db_username            = "admin"
 
-db_password            = "Test1234!"
  
 db_allocated_storage   = 10
 
