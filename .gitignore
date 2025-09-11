@@ -1,0 +1,12 @@
+api/bin
+api/obj
+api/.vscode
+view/.vscode
+view/node_modules
+#view/package-lock.json
+**/.terraform/
+**/*.tfstate
+**/*.tfstate.backup
+*.terraform.lock.hcl
+crash.log
+.DS_Store
