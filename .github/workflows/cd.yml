@@ -5,7 +5,7 @@ on:
     branches: [ dev, uat, main ]
     paths:
       - 'infra/**'
-      - '.github/workflows/CD.yml'
+      - '.github/workflows/cd.yml'
   workflow_dispatch:
 
 env:
